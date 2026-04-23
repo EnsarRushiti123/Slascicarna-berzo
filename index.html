@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slaščičarna Berzo | Tradicija od 1932</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #fefcfd;
+            --ink: #111111;
+            --berzo-pink: #f29db1;
+            --berzo-pink-pale: #fce8ee;
+            --shadow: 0 10px 40px rgba(0,0,0,0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--paper);
+            color: var(--ink);
+            font-family: 'Lora', serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+        }
+
+        /* ===================== NAVIGACIJA ===================== */
+        nav {
+            position: fixed; top: 0; width: 100%;
+            padding: 16px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000;
+            background: rgba(254,252,253,0.97);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(242,157,177,0.15);
+            transition: padding 0.4s, box-shadow 0.4s;
+        }
+        .logo-link { text-decoration: none; color: inherit; transition: opacity 0.3s; }
+        .logo-link:hover { opacity: 0.8; }
+        .logo-container { display: flex; align-items: center; }
+        .logo-img { height: 46px; width: auto; transition: height 0.4s; }
+        .logo-text-fallback {
+            display: none; font-family: 'Playfair Display', serif;
+            font-weight: 700; font-size: 1.4rem; letter-spacing: 3px;
+        }
+        .nav-right { display: flex; align-items: center; gap: 30px; }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a {
+            text-decoration: none; color: var(--ink); font-weight: 700;
+            text-transform: uppercase; font-size: 0.72rem; letter-spacing: 2px; transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--berzo-pink); }
+        .nav-social { display: flex; gap: 10px; align-items: center; }
+        .nav-social a {
+            display: flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--berzo-pink-pale); color: var(--ink);
+            transition: background 0.3s, transform 0.2s; text-decoration: none;
+        }
+        .nav-social a:hover { background: var(--berzo-pink); transform: translateY(-2px); }
+        .nav-social svg { width: 15px; height: 15px; fill: currentColor; }
+
+        /* Hamburger */
+        .hamburger {
+            display: none; flex-direction: column; gap: 5px;
+            cursor: pointer; padding: 4px; background: none; border: none; z-index: 1100;
+        }
+        .hamburger span {
+            display: block; width: 24px; height: 2px; background: var(--ink);
+            border-radius: 2px; transition: transform 0.35s, opacity 0.25s; transform-origin: center;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* Mobilni overlay meni */
+        .mobile-menu {
+            display: none; position: fixed; inset: 0;
+            background: rgba(254,252,253,0.98); backdrop-filter: blur(12px);
+            z-index: 999; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.35s;
+        }
+        .mobile-menu.open { opacity: 1; pointer-events: all; }
+        .mobile-menu a {
+            display: block; text-decoration: none; color: var(--ink);
+            font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700;
+            padding: 14px 0; text-align: center; transition: color 0.2s;
+            border-bottom: 1px solid var(--berzo-pink-pale); width: 80%;
+        }
+        .mobile-menu a:last-of-type { border-bottom: none; }
+        .mobile-menu a:hover { color: var(--berzo-pink); }
+        .mobile-menu-social { display: flex; gap: 16px; margin-top: 36px; }
+        .mobile-menu-social a {
+            width: 46px; height: 46px; border-radius: 50%;
+            background: var(--berzo-pink-pale);
+            display: flex; align-items: center; justify-content: center;
+            border-bottom: none; padding: 0; transition: background 0.3s;
+            text-decoration: none;
+        }
+        .mobile-menu-social a:hover { background: var(--berzo-pink); }
+        .mobile-menu-social svg { width: 18px; height: 18px; fill: var(--ink); }
+
+        /* ===================== HERO ===================== */
+        .hero-split {
+            display: flex; height: 100vh; width: 100%; overflow: hidden;
+        }
+    .hero-image-side {
+    flex: 1.2;
+    background: url('image_80107d.jpg') center/cover no-repeat;
+}
+        .hero-text-side {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            padding: 80px 60px;
+        }
+        .hero-inner { max-width: 450px; animation: fadeInUp 1.2s ease-out; }
+        .hero-label {
+            color: var(--berzo-pink); text-transform: uppercase;
+            letter-spacing: 5px; font-weight: 700; font-size: 0.8rem;
+            margin-bottom: 14px; display: block;
+        }
+        .hero-text-side h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8rem, 6vw, 5.5rem);
+            line-height: 0.92; margin-bottom: 22px;
+        }
+        .hero-description { font-size: 1rem; color: #555; margin-bottom: 36px; font-style: italic; line-height: 1.7; }
+        .btn-group { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+        .btn-primary {
+            background: var(--ink); color: white; padding: 14px 28px;
+            text-decoration: none; font-weight: 700; text-transform: uppercase;
+            font-size: 0.72rem; letter-spacing: 1px; transition: background 0.3s; border-radius: 2px;
+        }
+        .btn-primary:hover { background: var(--berzo-pink); }
+        .btn-secondary {
+            color: var(--ink); text-decoration: none; font-weight: 700;
+            text-transform: uppercase; font-size: 0.72rem; letter-spacing: 1px;
+            border-bottom: 2px solid var(--berzo-pink); padding-bottom: 3px; transition: color 0.3s;
+        }
+        .btn-secondary:hover { color: var(--berzo-pink); }
+        .hero-social { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+        .hero-social a {
+            display: flex; align-items: center; gap: 7px; padding: 8px 15px;
+            border: 1.5px solid rgba(0,0,0,0.12); text-decoration: none; color: var(--ink);
+            font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+            text-transform: uppercase; transition: 0.3s; border-radius: 2px;
+        }
+        .hero-social a:hover { border-color: var(--berzo-pink); color: var(--berzo-pink); background: var(--berzo-pink-pale); }
+        .hero-social svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+        /* ===================== STRANI ===================== */
+        .page { display: none; min-height: 80vh; padding: 110px 20px 80px; max-width: 850px; margin: 0 auto; }
+        .page.active { display: block; animation: fadeIn 0.7s ease-out; }
+        .page-title {
+            text-align: center; font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 8vw, 3rem);
+        }
+        .category-title {
+            text-align: center; font-family: 'Playfair Display', serif; font-size: 1.6rem;
+            margin: 44px 0 20px; border-bottom: 1px solid var(--berzo-pink-pale); padding-bottom: 8px;
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        .price-row {
+            display: flex; align-items: baseline; margin-bottom: 8px;
+            padding: 7px 10px; border-radius: 4px; transition: background 0.2s;
+        }
+        .price-row:hover { background: var(--berzo-pink-pale); }
+        .price-row span:first-child { font-size: 0.95rem; }
+        .dots { flex-grow: 1; border-bottom: 1px dotted #ccc; margin: 0 8px; min-width: 10px; }
+        .price { font-weight: 700; font-family: 'Playfair Display'; white-space: nowrap; font-size: 0.95rem; }
+        .nested { padding-left: 18px; font-size: 0.82rem; color: #666; margin-top: -6px; margin-bottom: 10px; font-style: italic; }
+        .info-box {
+            margin-top: 50px; padding: 24px; background: #fff;
+            border: 1px solid var(--berzo-pink-pale); font-size: 0.78rem; color: #777;
+            text-align: justify; border-radius: 4px;
+        }
+
+        /* ===================== KONTAKT ===================== */
+        #kontakt { max-width: 1000px; }
+        .kontakt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 44px; }
+        .kontakt-info {
+            background: white; padding: 40px; box-shadow: var(--shadow);
+            border-radius: 4px; display: flex; flex-direction: column; gap: 20px;
+        }
+        .kontakt-detail { display: flex; align-items: flex-start; gap: 14px; }
+        .kontakt-detail-icon {
+            width: 36px; height: 36px; background: var(--berzo-pink-pale);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .kontakt-detail-icon svg { width: 15px; height: 15px; fill: var(--berzo-pink); }
+        .kontakt-detail-text strong { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px; color: #aaa; margin-bottom: 2px; }
+        .kontakt-detail-text span, .kontakt-detail-text a { font-size: 0.95rem; color: inherit; text-decoration: none; }
+        .kontakt-social { display: flex; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
+        .kontakt-social a {
+            display: flex; align-items: center; gap: 7px; padding: 9px 16px;
+            text-decoration: none; color: white; font-size: 0.7rem; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase; border-radius: 2px;
+            transition: opacity 0.3s, transform 0.2s;
+        }
+        .kontakt-social a:hover { opacity: 0.85; transform: translateY(-2px); }
+        .kontakt-social a.fb { background: #1877F2; }
+        .kontakt-social a.ig { background: linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888); }
+        .kontakt-social a.gmaps { background: #4285F4; }
+        .kontakt-social svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+        .map-container { border-radius: 4px; overflow: hidden; box-shadow: var(--shadow); position: relative; }
+        .map-container iframe { width: 100%; height: 100%; min-height: 380px; border: none; display: block; }
+        .map-overlay-label {
+            position: absolute; top: 14px; left: 14px; background: white; padding: 7px 12px;
+            font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1px; border-radius: 2px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* ===================== FOOTER ===================== */
+        footer { background: var(--ink); color: white; padding: 50px 50px 28px; margin-top: 60px; }
+        .footer-inner {
+            max-width: 1000px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 40px; padding-bottom: 32px; border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer-brand .brand-name {
+            font-family: 'Playfair Display', serif; font-size: 1.4rem;
+            font-weight: 700; letter-spacing: 3px; margin-bottom: 12px;
+        }
+        .footer-brand p { font-size: 0.83rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
+        .footer-col h4 { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2px; color: var(--berzo-pink); margin-bottom: 16px; }
+        .footer-col a { display: block; text-decoration: none; color: rgba(255,255,255,0.55); font-size: 0.88rem; margin-bottom: 9px; transition: color 0.2s; }
+        .footer-col a:hover { color: white; }
+        .footer-social { display: flex; gap: 9px; margin-top: 18px; }
+        .footer-social a {
+            display: flex; align-items: center; justify-content: center;
+            width: 34px; height: 34px; border-radius: 50%;
+            background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.65);
+            text-decoration: none; transition: background 0.3s;
+        }
+        .footer-social a:hover { background: var(--berzo-pink); }
+        .footer-social svg { width: 15px; height: 15px; fill: currentColor; }
+        .footer-bottom {
+            max-width: 1000px; margin: 22px auto 0;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.72rem; color: rgba(255,255,255,0.3);
+        }
+
+        /* ===================== ANIMACIJE ===================== */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* ===================== TABLET ===================== */
+        @media (max-width: 900px) {
+            nav { padding: 14px 24px; }
+            .nav-links { display: none; }
+            .nav-social { display: none; }
+            .hamburger { display: flex; }
+            .mobile-menu { display: flex; }
+            .kontakt-grid { grid-template-columns: 1fr; }
+            .footer-inner { grid-template-columns: 1fr 1fr; gap: 28px; }
+        }
+
+        /* ===================== MOBITEL ===================== */
+        @media (max-width: 600px) {
+            nav { padding: 12px 18px; }
+
+            /* Hero: fullscreen z overlay tekstom */
+            .hero-split { flex-direction: column; height: 100svh; position: relative; }
+            .hero-image-side { position: absolute; inset: 0; flex: none; }
+            .hero-image-side::after {
+                content: ''; position: absolute; inset: 0;
+                background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 55%, transparent 100%);
+            }
+            .hero-text-side {
+                position: relative; z-index: 2; flex: none; width: 100%; height: 100%;
+                padding: 100px 24px 44px; align-items: flex-end; justify-content: flex-start; background: none;
+            }
+            .hero-inner { max-width: 100%; }
+            .hero-label { color: var(--berzo-pink); font-size: 0.7rem; letter-spacing: 4px; }
+            .hero-text-side h1 { font-size: clamp(2.5rem, 11vw, 3.8rem); color: white; line-height: 0.88; margin-bottom: 14px; }
+            .hero-description { color: rgba(255,255,255,0.82); font-size: 0.92rem; margin-bottom: 24px; }
+            .btn-group { gap: 14px; }
+            .btn-primary { padding: 13px 22px; font-size: 0.68rem; }
+            .btn-secondary { color: white; border-bottom-color: var(--berzo-pink); font-size: 0.68rem; }
+            .hero-social { margin-top: 18px; gap: 8px; }
+            .hero-social a {
+                border-color: rgba(255,255,255,0.3); color: white;
+                background: rgba(255,255,255,0.08); font-size: 0.63rem; padding: 7px 11px;
+            }
+            .hero-social a:hover { background: var(--berzo-pink); border-color: var(--berzo-pink); color: white; }
+
+            /* Strani */
+            .page { padding: 86px 16px 56px; }
+            .page-title { font-size: clamp(1.7rem, 9vw, 2.2rem); }
+            .category-title { font-size: 1.15rem; margin: 32px 0 14px; letter-spacing: 1px; }
+            .price-row { padding: 7px 4px; }
+            .price-row span:first-child { font-size: 0.85rem; line-height: 1.4; }
+            .price { font-size: 0.85rem; }
+            .nested { font-size: 0.76rem; padding-left: 8px; }
+            .info-box { padding: 16px; font-size: 0.74rem; }
+
+            /* Kontakt */
+            #kontakt { max-width: 100%; }
+            .kontakt-grid { margin-top: 26px; gap: 18px; }
+            .kontakt-info { padding: 22px 18px; gap: 16px; }
+            .map-container iframe { min-height: 260px; }
+            .kontakt-social { gap: 7px; }
+            .kontakt-social a { padding: 8px 12px; font-size: 0.63rem; }
+
+            /* Footer */
+            footer { padding: 34px 18px 20px; margin-top: 0; }
+            .footer-inner { grid-template-columns: 1fr; gap: 22px; padding-bottom: 22px; }
+            .footer-brand .brand-name { font-size: 1.2rem; }
+            .footer-bottom { flex-direction: column; gap: 6px; text-align: center; font-size: 0.67rem; }
+        }
+
+        /* ===================== ZELO MAJHNI ===================== */
+        @media (max-width: 380px) {
+            .hero-text-side h1 { font-size: 2.3rem; }
+            .btn-group { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .mobile-menu a { font-size: 1.8rem; }
+            .price-row span:first-child { font-size: 0.8rem; }
+            .price { font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <a href="#domov" class="logo-link">
+            <div class="logo-container">
+                <img src="berzo_logo.jpg" alt="Slaščičarna Berzo" class="logo-img"
+                     onerror="this.style.display='none'; document.getElementById('fallback-text').style.display='block';">
+                <span id="fallback-text" class="logo-text-fallback">BERZO</span>
+            </div>
+        </a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#domov">Domov</a>
+                <a href="#ponudba">Ponudba</a>
+                <a href="#zgodovina">Zgodba</a>
+                <a href="#kontakt">Kontakt</a>
+            </div>
+            <div class="nav-social">
+                <a href="https://www.facebook.com/" target="_blank" rel="noopener" title="Facebook">
+                    <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <a href="https://www.instagram.com/" target="_blank" rel="noopener" title="Instagram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Meni" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MOBILNI MENI -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#domov" onclick="closeMenu()">Domov</a>
+        <a href="#ponudba" onclick="closeMenu()">Ponudba</a>
+        <a href="#zgodovina" onclick="closeMenu()">Zgodba</a>
+        <a href="#kontakt" onclick="closeMenu()">Kontakt</a>
+        <div class="mobile-menu-social">
+            <a href="https://www.facebook.com/" target="_blank" rel="noopener" title="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" title="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="https://maps.google.com/?q=Stara+cesta+1,+1360+Vrhnika" target="_blank" rel="noopener" title="Google Maps">
+                <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            </a>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section id="hero" class="hero-split">
+        <div class="hero-image-side"></div>
+        <div class="hero-text-side">
+            <div class="hero-inner">
+                <span class="hero-label">Tradicija od 1932</span>
+                <h1>Slaščičarna Berzo</h1>
+                <p class="hero-description">Najslajši kotiček Vrhnike, kjer vsak grižljaj pripoveduje zgodbo o tradiciji in ljubezni do sladkih umetnij.</p>
+                <div class="btn-group">
+                    <a href="#ponudba" class="btn-primary">Preglej cenik</a>
+                    <a href="#kontakt" class="btn-secondary">Kje smo?</a>
+                </div>
+                <div class="hero-social">
+                    <a href="https://www.facebook.com/" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        Facebook
+                    </a>
+                    <a href="https://www.instagram.com/" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        Instagram
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PONUDBA -->
+    <div id="ponudba" class="page">
+        <h2 class="page-title">Naš Cenik</h2>
+        <h3 class="category-title">Topli napitki</h3>
+        <div class="price-row"><span>Espresso</span><div class="dots"></div><span class="price">1,40 €</span></div>
+        <div class="nested">Brez kofeina: 1,70 €</div>
+        <div class="price-row"><span>Macchiato</span><div class="dots"></div><span class="price">1,50 €</span></div>
+        <div class="price-row"><span>Kava z mlekom</span><div class="dots"></div><span class="price">1,60 €</span></div>
+        <div class="nested">Brez kofeina: 1,90 €</div>
+        <div class="price-row"><span>Kava s smetano</span><div class="dots"></div><span class="price">1,80 €</span></div>
+        <div class="nested">Brez kofeina: 2,10 €</div>
+        <div class="price-row"><span>Cappuccino</span><div class="dots"></div><span class="price">1,70 €</span></div>
+        <div class="nested">Brez kofeina: 2,00 €</div>
+        <div class="price-row"><span>Bela kava</span><div class="dots"></div><span class="price">2,00 €</span></div>
+        <div class="nested">Brez kofeina: 2,30 €</div>
+        <div class="price-row"><span>Bela kava s smetano</span><div class="dots"></div><span class="price">2,20 €</span></div>
+        <div class="nested">Brez kofeina: 2,50 €</div>
+        <div class="price-row"><span>Kakav</span><div class="dots"></div><span class="price">2,00 €</span></div>
+        <div class="price-row"><span>Kakav s smetano</span><div class="dots"></div><span class="price">2,20 €</span></div>
+        <div class="price-row"><span>Vroča čokolada</span><div class="dots"></div><span class="price">2,60 €</span></div>
+        <div class="price-row"><span>Vroča čokolada s smetano</span><div class="dots"></div><span class="price">2,80 €</span></div>
+        <div class="price-row"><span>Čaj</span><div class="dots"></div><span class="price">1,50 €</span></div>
+        <div class="nested">Z mlekom: 1,80 € | Z medom: 2,00 € | Z limono: 2,00 €</div>
+        <div class="price-row"><span>Dodatek: Mleko (0,20 l)</span><div class="dots"></div><span class="price">1,00 €</span></div>
+
+        <h3 class="category-title">Hladni napitki</h3>
+        <div class="price-row"><span>Limonada / Borovničev sok (0,10 l)</span><div class="dots"></div><span class="price">1,00 €</span></div>
+        <div class="price-row"><span>Naravni sok (0,10 l)</span><div class="dots"></div><span class="price">1,50 €</span></div>
+        <div class="price-row"><span>Gosti sok – breskev, jagoda, ananas (0,20 l)</span><div class="dots"></div><span class="price">2,50 €</span></div>
+        <div class="price-row"><span>Jabolčni / Pomarančni / Ledeni čaj (0,20 l)</span><div class="dots"></div><span class="price">2,50 €</span></div>
+        <div class="price-row"><span>Coca Cola / Fanta / Schweppes / Cockta (0,25 l)</span><div class="dots"></div><span class="price">2,50 €</span></div>
+        <div class="price-row"><span>Radenska (0,25 l)</span><div class="dots"></div><span class="price">2,00 €</span></div>
+        <div class="price-row"><span>Voda / Voda z okusom (0,50 l)</span><div class="dots"></div><span class="price">2,00 €</span></div>
+        <div class="price-row"><span>Gosti sok s smetano</span><div class="dots"></div><span class="price">3,50 €</span></div>
+
+        <h3 class="category-title">Slaščice</h3>
+        <div class="price-row"><span>Kremna / Čokoladna / Punč / Višnjeva / Šamšnita</span><div class="dots"></div><span class="price">3,50 €</span></div>
+        <div class="price-row"><span>Sladica BERZO / NOVA Sladica / Sacher</span><div class="dots"></div><span class="price">4,30 €</span></div>
+        <div class="price-row"><span>Lešnikova torta</span><div class="dots"></div><span class="price">4,50 €</span></div>
+        <div class="price-row"><span>Francoska / Sadna / Skutina / Orehova / Bananina</span><div class="dots"></div><span class="price">4,00 €</span></div>
+        <div class="price-row"><span>Tiramisu / Grmada / Princes krof / Raffy / Mousse</span><div class="dots"></div><span class="price">4,00 €</span></div>
+        <div class="price-row"><span>Baklava / Išler / Figaro / Ježek / Indijanček</span><div class="dots"></div><span class="price">3,00 €</span></div>
+
+        <h3 class="category-title">Sladoled & Kupe</h3>
+        <div class="price-row"><span>Kepica sladoleda</span><div class="dots"></div><span class="price">2,00 €</span></div>
+        <div class="price-row"><span>Smetana (porcija)</span><div class="dots"></div><span class="price">1,00 €</span></div>
+        <div class="price-row"><span>100% sladoled</span><div class="dots"></div><span class="price">2,80 €</span></div>
+        <div class="price-row"><span>Ledena kava</span><div class="dots"></div><span class="price">4,50 €</span></div>
+        <div class="nested">Brez kofeina: 5,00 €</div>
+        <div class="price-row"><span>Banana split</span><div class="dots"></div><span class="price">6,50 €</span></div>
+        <div class="price-row"><span>Sadna kupa</span><div class="dots"></div><span class="price">7,00 €</span></div>
+        <div class="price-row"><span>Sladoled za domov (1 L / 2 L / 4 L)</span><div class="dots"></div><span class="price">15,80 / 28,00 / 39,00 €</span></div>
+
+        <h3 class="category-title">Zimska ponudba & Burek</h3>
+        <div class="price-row"><span>Turški med / Kokosova salama / Čokolada</span><div class="dots"></div><span class="price">3,00 €</span></div>
+        <div class="price-row"><span>Krof (marmelada)</span><div class="dots"></div><span class="price">2,00 €</span></div>
+        <div class="price-row"><span>Krof (vanilija)</span><div class="dots"></div><span class="price">3,00 €</span></div>
+        <div class="price-row"><span>Sirov burek</span><div class="dots"></div><span class="price">3,00 €</span></div>
+
+        <div class="info-box">
+            <p><strong>ALERGENI:</strong> V naši kuhinji uporabljamo živila, ki so lahko alergeni: Gluten, Jajca, Arašidi, Soja, Mleko, Oreščki, Sezam, Žveplov dioksid... Jedi jih lahko vsebujejo v sledovih. Za podrobnosti vprašajte osebje.</p>
+            <p style="margin-top: 12px;">Cenik velja od 17.12.2021. Vse cene so v EUR in vključujejo DDV.</p>
+        </div>
+    </div>
+
+    <!-- ZGODBA -->
+    <div id="zgodovina" class="page">
+        <h2 class="page-title">Naša Zgodba</h2>
+        <div style="margin-top: 36px; text-align: center; max-width: 620px; margin: 36px auto 0;">
+            <p style="font-size: 1.1rem; margin-bottom: 18px; line-height: 1.8;">Slaščičarna Berzo je svoja vrata prvič odprla leta 1932. Od takrat do danes smo ostali zvesti receptom, ki so se prenašali iz roda v rod.</p>
+            <p style="line-height: 1.8;">Ponosni smo, da naši gostje pri nas ne dobijo le sladice, ampak košček zgodovine Vrhnike.</p>
+        </div>
+    </div>
+
+    <!-- KONTAKT -->
+    <div id="kontakt" class="page">
+        <h2 class="page-title">Obiščite nas</h2>
+        <div class="kontakt-grid">
+            <div class="kontakt-info">
+                <div class="kontakt-detail">
+                    <div class="kontakt-detail-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    </div>
+                    <div class="kontakt-detail-text">
+                        <strong>Naslov</strong>
+                        <span>Stara cesta 1, 1360 Vrhnika</span>
+                    </div>
+                </div>
+                <div class="kontakt-detail">
+                    <div class="kontakt-detail-icon">
+                        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    </div>
+                    <div class="kontakt-detail-text">
+                        <strong>Telefon</strong>
+                        <a href="tel:+386017505240">01 75 05 240</a>
+                    </div>
+                </div>
+                <div class="kontakt-detail">
+                    <div class="kontakt-detail-icon">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+                    </div>
+                    <div class="kontakt-detail-text">
+                        <strong>Delovni čas</strong>
+                        <span>Vsak dan 08:00–21:00</span>
+                    </div>
+                </div>
+                <div style="border-top: 1px solid var(--berzo-pink-pale); padding-top: 20px;">
+                    <p style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px; color: #aaa; margin-bottom: 12px; font-weight: 700;">Sledite nam</p>
+                    <div class="kontakt-social">
+                        <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="fb">
+                            <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                            Facebook
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="ig">
+                            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            Instagram
+                        </a>
+                        <a href="https://maps.google.com/?q=Stara+cesta+1,+1360+Vrhnika" target="_blank" rel="noopener" class="gmaps">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                            Zemljevid
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2775.1234567890123!2d14.2950000!3d45.9620000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47763b1234567890%3A0x1234567890abcdef!2sTr%C5%BEa%C5%A1ka+cesta+2%2C+1360+Vrhnika!5e0!3m2!1ssl!2ssi!4v1234567890123"
+                    allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Lokacija Slaščičarne Berzo">
+                </iframe>
+                <div class="map-overlay-label">📍 Slaščičarna Berzo</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="brand-name">BERZO</div>
+                <p>Najslajši kotiček Vrhnike od leta 1932. Tradicija, kakovost in ljubezen do sladkih umetnij v vsakem grižljaju.</p>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/" target="_blank" rel="noopener" title="Facebook">
+                        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="https://www.instagram.com/" target="_blank" rel="noopener" title="Instagram">
+                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </a>
+                    <a href="https://maps.google.com/?q=Stara+cesta+1,+1360+Vrhnika" target="_blank" rel="noopener" title="Google Maps">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Navigacija</h4>
+                <a href="#domov">Domov</a>
+                <a href="#ponudba">Cenik & Ponudba</a>
+                <a href="#zgodovina">Naša Zgodba</a>
+                <a href="#kontakt">Kontakt</a>
+            </div>
+            <div class="footer-col">
+                <h4>Kontakt</h4>
+                <a href="tel:+386017505240">📞01 75 05 240</a>
+                <a href="https://maps.google.com/?q=Stara+cesta+1,+1360+Vrhnika" target="_blank">📍 Tržaška c. 2, Vrhnika</a>
+                <a>🕗 Vsak dan 08:00–21:00</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 1932–2026 Slaščičarna Berzo. Vse pravice pridržane.</span>
+            <span>Z ljubeznijo narejeno na Vrhniki 🍰</span>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const btn = document.getElementById('hamburger');
+            const isOpen = menu.classList.toggle('open');
+            btn.classList.toggle('open', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        }
+        function closeMenu() {
+            document.getElementById('mobileMenu').classList.remove('open');
+            document.getElementById('hamburger').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function handleRoute() {
+            const hash = window.location.hash || '#domov';
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const hero = document.getElementById('hero');
+            if (hash === '#domov') {
+                hero.style.display = 'flex';
+            } else {
+                hero.style.display = 'none';
+                const page = document.querySelector(hash);
+                if (page) page.classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        window.addEventListener('hashchange', handleRoute);
+        window.addEventListener('load', handleRoute);
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            const logoImg = document.querySelector('.logo-img');
+            const isMobile = window.innerWidth <= 600;
+            if (window.scrollY > 50) {
+                nav.style.padding = isMobile ? '10px 18px' : '10px 50px';
+                nav.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)';
+                if (logoImg) logoImg.style.height = '36px';
+            } else {
+                nav.style.padding = isMobile ? '12px 18px' : '16px 50px';
+                nav.style.boxShadow = 'none';
+                if (logoImg) logoImg.style.height = '46px';
+            }
+        });
+    </script>
+</body>
+</html>
